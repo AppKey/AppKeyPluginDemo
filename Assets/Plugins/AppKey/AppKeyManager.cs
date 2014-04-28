@@ -32,11 +32,11 @@ public class AppKeyManager : MonoBehaviour {
 
 #if UNITY_ANDROID
 
-	public static event Action appKeyEnabledEvent;
-	public static event Action<LockedReasons> appKeyDisabledEvent;
-
+	// public variables for setting on the prefab
 	public string AppID;
-	public bool UserAnalytics;  // Whether or not to send user behavior analytics to the AppKey platform to optimize your revenue
+	public string AppKeyUserBenefit;  // Describe what will be unlocked for AppKey users. This will be used to tailer the PromptUser message
+	public bool UserAnalytics;  // Whether or not to send user behavior analytics to the AppKey platform
+
 	private bool LOGD=false;	// Set to true to activate debug logs.
 	public static LockedReasons AppKeyLockedReason = LockedReasons.UNDEFINED;
 	public enum LockedReasons {
@@ -46,6 +46,8 @@ public class AppKeyManager : MonoBehaviour {
 		UNDEFINED=3
 	}
 
+	public static event Action appKeyEnabledEvent;
+	public static event Action<LockedReasons> appKeyDisabledEvent;
 	private static AndroidJavaClass mAppKeyPluginClass;
 	private static AndroidJavaObject mAppKeyPlugin;
 	private static AndroidJavaObject mActivity;
@@ -87,7 +89,12 @@ public class AppKeyManager : MonoBehaviour {
 		}
 		instance._CheckAppKey();
 	}
-	
+
+	public static void PromptUser() {
+		if(instance.LOGD) Debug.Log("AppKeyManager.PromptUser() benefit= " + instance.AppKeyUserBenefit);
+		instance._PromptUser(instance.AppKeyUserBenefit);
+	}
+
 	public static void PromptUser(string benefit) {
 		if(instance.LOGD) Debug.Log("AppKeyManager.PromptUser benefit= " + benefit);
 		instance._PromptUser(benefit);

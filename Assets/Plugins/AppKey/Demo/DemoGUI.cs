@@ -40,7 +40,8 @@ public class DemoGUI : MonoBehaviour {
 		GUI.Label(new Rect(50, 100, 600, 200), "Status = "+AppKeyResult);
 		GUI.Label(new Rect(300, 200, 400, 100), "PromptUser tells the user how to enable AppKey");
 		if (GUI.Button(new Rect(50,200,200,100),"Call PromptUser")) {
-			AppKeyManager.PromptUser("[some awesome thing]");
+			AppKeyManager.PromptUser();  //Use text set in prefab
+			//AppKeyManager.PromptUser("[some awesome thing]");  //Override prefab text
 		}
 
 		//OpenAppKey opens appkey to the store view. Typically not used but available if it works for your UX
